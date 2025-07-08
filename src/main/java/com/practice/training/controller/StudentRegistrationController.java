@@ -5,7 +5,6 @@ import com.practice.training.models.Student;
 import com.practice.training.service.StudentService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/student")
 public class StudentRegistrationController {
-    @Autowired
+
     StudentService studentService;
 
     public StudentRegistrationController(StudentService studentService){

@@ -1,21 +1,19 @@
 package com.practice.training;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.practice.training.controller.StudentRegistrationController;
 import com.practice.training.dao.StudentDao;
 import com.practice.training.models.Student;
 import com.practice.training.service.StudentService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.beans.factory.annotation.Autowired;
-
 
 import java.util.List;
 import java.util.Optional;

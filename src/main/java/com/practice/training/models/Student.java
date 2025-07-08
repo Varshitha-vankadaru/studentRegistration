@@ -1,10 +1,12 @@
 package com.practice.training.models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
