@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: Training
+
+server:
+  port: 8090
