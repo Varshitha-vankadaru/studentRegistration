@@ -19,14 +19,13 @@ public class StudentRegistrationController {
 
     StudentService studentService;
 
-    public StudentRegistrationController(StudentService studentService){
+    public StudentRegistrationController(StudentService studentService) {
         this.studentService = studentService;
     }
 
 
-
     @PostMapping
-    public ResponseEntity<String> register(@RequestBody @Valid StudentDao student){
+    public ResponseEntity<String> register(@RequestBody @Valid StudentDao student) {
         log.info("Request to register a new student");
         return new ResponseEntity<>(studentService.registerStudent(student), HttpStatus.OK);
     }
@@ -40,7 +39,6 @@ public class StudentRegistrationController {
     }
 
 
-
     @GetMapping
     public ResponseEntity<List<Student>> findAll() {
         log.info("Request to find all students");
@@ -48,9 +46,9 @@ public class StudentRegistrationController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Student> updateStudent(@PathVariable Long id,@RequestBody @Valid StudentDao student){
+    public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody @Valid StudentDao student) {
         log.info("Request to update student by id");
-        Optional<Student> student1=studentService.updateStudent(id,student);
+        Optional<Student> student1 = studentService.updateStudent(id, student);
         return student1.map(ResponseEntity::ok).orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
 
@@ -68,44 +66,6 @@ public class StudentRegistrationController {
         log.info("Deleted student with ID: {}", id);
         return ResponseEntity.noContent().build();
     }
-
-
-
-
-
-
-
-  /*  @GetMapping("/{phoneNumber}")
-    //public ResponseEntity<Student> findStudentByPhoneNumber(@PathVariable String phoneNumber){
-        Optional<Student> student=studentService.getStudent(phoneNumber);
-        return student.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-
-
-    }
-    @GetMapping
-    public List<Student> findAllStudents(){
-        return studentService.getAllStudents();
-    }
-
-    @PutMapping("/{phoneNumber}")
-    public ResponseEntity<Student> updateStudent(@PathVariable String phoneNumber, @RequestBody Student student){
-        student.setPhoneNumber(phoneNumber);
-        Optional<Student> student1=studentService.updateStudent(phoneNumber,student);
-        return student1.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-    }
-
-    @DeleteMapping("/{phoneNumber}")
-    public ResponseEntity<Void> deleteStudentByPhoneNumber(@PathVariable String phoneNumber){
-        Optional<Student> student=studentService.getStudent(phoneNumber);
-        if(student.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }
-
-        studentService.deleteStudent(phoneNumber);
-        return ResponseEntity.ok().build();
-    }*/
-
-
 
 
 }
