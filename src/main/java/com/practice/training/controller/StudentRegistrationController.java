@@ -23,20 +23,65 @@ public class StudentRegistrationController {
         this.studentService = studentService;
     }
 
-    @PostMapping("/registration")
+
+
+    @PostMapping
     public ResponseEntity<String> register(@RequestBody @Valid StudentDao student){
         log.info("Request to register a new student");
         return new ResponseEntity<>(studentService.registerStudent(student), HttpStatus.OK);
     }
 
-    @GetMapping("/{phoneNumber}")
-    public ResponseEntity<Student> findStudentByPhoneNumber(@PathVariable String phoneNumber){
+    @GetMapping("/{id}")
+    public ResponseEntity<Student> findStudentById(@PathVariable Long id) {
+        log.info("Request to find student by id: {}", id);
+        Optional<Student> student = studentService.getStudent(id);
+        return student.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+
+
+    @GetMapping
+    public ResponseEntity<List<Student>> findAll() {
+        log.info("Request to find all students");
+        return ResponseEntity.ok(studentService.getAllStudents());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Student> updateStudent(@PathVariable Long id,@RequestBody @Valid StudentDao student){
+        log.info("Request to update student by id");
+        Optional<Student> student1=studentService.updateStudent(id,student);
+        return student1.map(ResponseEntity::ok).orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteStudentById(@PathVariable("id") Long id) {
+        log.info("Request to delete student with ID: {}", id);
+        Optional<Student> student = studentService.getStudent(id);
+        if (student.isEmpty()) {
+            log.warn("Student with ID {} not found. Cannot delete.", id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        studentService.deleteStudent(id);
+        log.info("Deleted student with ID: {}", id);
+        return ResponseEntity.noContent().build();
+    }
+
+
+
+
+
+
+
+  /*  @GetMapping("/{phoneNumber}")
+    //public ResponseEntity<Student> findStudentByPhoneNumber(@PathVariable String phoneNumber){
         Optional<Student> student=studentService.getStudent(phoneNumber);
         return student.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 
 
     }
-
     @GetMapping
     public List<Student> findAllStudents(){
         return studentService.getAllStudents();
@@ -58,7 +103,9 @@ public class StudentRegistrationController {
 
         studentService.deleteStudent(phoneNumber);
         return ResponseEntity.ok().build();
-    }
+    }*/
+
+
 
 
 }

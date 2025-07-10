@@ -53,19 +53,24 @@ class StudentRegistrationControllerTest {
                 .andExpect(status().isOk());
     }
 
+
+
     @Test
-    void testFindStudentByPhoneNumber() throws Exception {
+    void testFindStudentById() throws Exception {
         Student student = new Student();
+        student.setId(1L);
         student.setFirstName("Alice");
         student.setLastName("Smith");
         student.setEmail("alice@example.com");
         student.setPhoneNumber("1234567890");
         student.setAddress("789 Park Avenue");
 
-        when(studentService.getStudent("1234567890")).thenReturn(Optional.of(student));
+        when(studentService.getStudent(1L)).thenReturn(Optional.of(student));
 
-        mockMvc.perform(get("/student/1234567890")).andExpect(status().isOk());
+        mockMvc.perform(get("/student/1"))
+                .andExpect(status().isOk());
     }
+
 
     @Test
     void testFindAllStudents() throws Exception {
@@ -98,32 +103,37 @@ class StudentRegistrationControllerTest {
     @Test
     void testUpdateStudent() throws Exception {
         Student student = new Student();
+        student.setId(1L);
         student.setFirstName("Alice");
         student.setLastName("Smith");
         student.setEmail("alice@example.com");
         student.setPhoneNumber("1234567890");
         student.setAddress("789 Park Avenue");
 
-        when(studentService.updateStudent(any(), any())).thenReturn(Optional.of(student));
+        when(studentService.updateStudent(any(Long.class), any(StudentDao.class)))
+                .thenReturn(Optional.of(student));
 
-        mockMvc.perform(put("/student/1234567890")
+        mockMvc.perform(put("/student/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(student)))
                 .andExpect(status().isOk());
     }
 
 
+
     @Test
     void testDeleteStudent() throws Exception {
         Student student = new Student();
-        student.setPhoneNumber("1234567890");
+        student.setId(1L);
 
-        when(studentService.getStudent("1234567890")).thenReturn(Optional.of(student));
-        Mockito.doNothing().when(studentService).deleteStudent("1234567890");
 
-        mockMvc.perform(delete("/student/1234567890"))
+        when(studentService.getStudent(1L)).thenReturn(Optional.of(student));
+        Mockito.doNothing().when(studentService).deleteStudent(1L);
+
+        mockMvc.perform(delete("/student/1"))
                 .andExpect(status().isOk());
     }
+
 
 
 

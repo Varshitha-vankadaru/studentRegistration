@@ -12,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,7 +27,7 @@ class StudentServiceTest {
 	 void testRegisterStudent_Success() {
 		Student studentEntity = new Student();
 		studentEntity.setId(12345678L);
-		when( studentRepository.findStudentByPhoneNumber(anyString())).thenReturn(Optional.empty());
+		when( studentRepository.findById(anyLong())).thenReturn(Optional.empty());
 		when( studentRepository.save(any())).thenReturn(studentEntity);
 		studentService.registerStudent(getStudentDao());
 		verify(studentRepository, times(1)).save(any(Student.class));
