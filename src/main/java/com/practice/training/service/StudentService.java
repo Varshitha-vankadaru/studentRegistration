@@ -4,6 +4,8 @@
     import com.practice.training.models.Student;
     import com.practice.training.repository.StudentRepository;
     import lombok.extern.slf4j.Slf4j;
+    import org.springframework.data.domain.Page;
+    import org.springframework.data.domain.Pageable;
     import org.springframework.http.HttpStatus;
     import org.springframework.http.ResponseEntity;
     import org.springframework.stereotype.Service;
@@ -75,5 +77,9 @@
 
         public void deleteStudent(Long id){
             studentRepository.deleteById(id);
+        }
+
+        public Page<Student> getAllStudents(Pageable pageable){
+            return studentRepository.findAll(pageable);
         }
     }
