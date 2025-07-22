@@ -3,4 +3,4 @@ spring:
     name: Training
 
 server:
-  port: 8090
+  port: 5000
