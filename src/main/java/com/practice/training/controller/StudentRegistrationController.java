@@ -75,7 +75,7 @@ public class StudentRegistrationController {
         Optional<Student> student = studentService.getStudent(id);
         if (student.isEmpty()) {
             log.warn("Student with ID {} not found. Cannot delete.", id);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.OK).build();
         }
 
         studentService.deleteStudent(id);
