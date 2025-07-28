@@ -3,30 +3,24 @@ name: Deploy to Elastic Beanstalk
 on:
   push:
     branches:
-      - main  # or 'master', depending on your default branch
+      - main  # Change to 'master' if your default branch is master
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout source code
         uses: actions/checkout@v3
 
-      - name: Set up JDK 17
+      - name: Set up Java
         uses: actions/setup-java@v3
         with:
+          distribution: 'corretto'
           java-version: '17'
-          distribution: 'temurin'
 
       - name: Build with Maven
-        run: mvn clean package --file pom.xml
-
-      - name: Generate deployment package
-        run: |
-          mkdir -p deploy
-          cp target/*.jar deploy/application.jar
-          echo "web: java -jar application.jar" > deploy/Procfile
+        run: mvn clean install
 
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
@@ -35,6 +29,6 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: ${{ secrets.EB_APPLICATION_NAME }}
           environment_name: ${{ secrets.EB_ENVIRONMENT_NAME }}
-          version_label: github-${{ github.run_number }}
+          version_label: ${{ github.sha }}
           region: ${{ secrets.AWS_REGION }}
-          deployment_package: deploy
+          deployment_package: target/training-0.0.1-SNAPSHOT.jar
